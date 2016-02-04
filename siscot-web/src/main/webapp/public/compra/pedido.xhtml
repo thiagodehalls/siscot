@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/client/client.xhtml">
+
+    <ui:define name="main">
+
+        <section class="invoice">
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="fa fa-list"></i> Detalhamento
+                    </h2>
+                </div>
+            </div>
+
+
+            <h:form prependId="false">
+
+                <h:panelGroup layout="block" styleClass="row">
+
+                    <h:panelGroup layout="block" styleClass="col-xs-12 table-responsive">
+                        <table id="estoques" class="table table-striped">
+                            <tbody>
+                                    <tr>
+                                        <th>Qtd</th>
+                                        <th>Produto</th>
+                                        <th>Valor Unitário</th>
+                                        <th>Subtotal</th>
+                                        <td></td>
+                                    </tr>
+                                <ui:repeat var="_item" value="#{clienteCompra.compra.itemCompras}">
+                                    <tr>
+                                        <td>
+                                            #{_item.produto.nome}
+                                            <h:outputText value="&#160;" />
+                                            #{_item.produto.marcaFabricante.nome}
+                                            <h:outputText value="&#160;" />
+                                            <h:outputText value="#{_item.produto.medida}">
+                                               <f:converter converterId="ConverterBigDecimalBrasileiroSimples" />
+                                            </h:outputText>
+                                            <h:outputText value="&#160;" />
+                                            #{_item.produto.unidadeMedida.sigla}
+                                        </td>
+                                        <td>
+                                            <h:inputText value="#{_item.quantidade}" styleClass="form-control" maxlength="3" size="3"
+                                                    style="text-align: center !important;">
+                                                <f:ajax event="keyup" execute="@form" render="@form"/>
+                                            </h:inputText>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{_item.valorUnitario}">
+                                                <f:converter converterId="ConverterBigDecimalBrasileiroSimples" />
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{_item.valor}">
+                                                <f:converter converterId="ConverterBigDecimalBrasileiroSimples" />
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <h:commandLink immediate="true">
+                                                <f:ajax event="click" listener="#{compraController.remover(_item)}"
+                                                        execute="@form" render="@form :formNavbar"/>
+                                                <i class="fa fa-close" style="color:#000"/>
+                                            </h:commandLink>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                                <tr style="text-align: right; vertical-align: middle;">
+                                    <td colspan="5" style="text-align: right; padding-right: 10px;">
+                                        <b>
+                                            Total: <h:outputText value="#{clienteCompra.compra.valorTotalCompra}">
+                                                            <f:convertNumber groupingUsed="true" locale="pt_br" minFractionDigits="2"
+                                                                             type="currency" maxFractionDigits="2"/>
+                                                   </h:outputText>
+                                        </b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </h:panelGroup>
+                </h:panelGroup>
+                <div class="row no-print">
+                    <div class="col-xs-12">
+                            <h:commandLink styleClass="btn btn-default" action="/public/compra/compra.jsf">
+                                <i class="glyphicon glyphicon-plus"/>
+                                Adicionar Mais Produtos
+                            </h:commandLink>
+
+                            <div class="pull-right">
+                                <h:commandLink styleClass="btn btn-primary pull-right" action="#{compraController.processarCompra}">
+                                    <i class="glyphicon glyphicon-ok"/>
+                                    Finalizar Compra
+                                </h:commandLink>
+                            </div>
+                    </div>
+                </div>
+            </h:form>
+        </section>
+    </ui:define>
+</ui:composition>

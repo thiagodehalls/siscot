@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="id" value='#{empresaController.id}'/>
+        <f:event type="preRenderView" listener='#{empresaController.retrieve}'/>
+    </f:metadata>
+
+    <ui:define name="page_header">
+        Empresa
+    </ui:define>
+    <ui:define name="optional_description">
+        Manutenção de Empresa
+    </ui:define>
+    <ui:define name="main">
+        <h:form id="reg" role="form" prependId="false">
+            <h:panelGroup layout="block" styleClass="box box-primary">
+                <h:panelGroup layout="block" styleClass="box-header with-border">
+                    <h3 class="box-title">Incluir/Editar Empresas</h3>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="empresa">Empresa</label>
+                        <h:inputText id="empresa" label="Empresa" styleClass="form-control" maxlength="30" required="true"
+                                     value="#{empresaController.newEmpresa.nomeFantasia}"/>
+                        <h:message for="empresa"  errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="cnpj">CNPJ</label>
+                        <h:inputText id="cnpj" label="CNPJ" styleClass="form-control" maxlength="19" required="true"
+                                     value="#{empresaController.newEmpresa.cnpj}"/>
+                        <h:message for="cnpj" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="razaoSocial">Razão Social</label>
+                        <h:inputText id="razaoSocial" label="Razão Social" styleClass="form-control" maxlength="50" required="true"
+                                     value="#{empresaController.newEmpresa.razaoSocial}"/>
+                        <h:message for="razaoSocial" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group" rendered="#{empresaController.id==null}">
+                        <label for="situacaoDisable">Situação</label>
+                        <h:selectOneMenu id="situacaoDisable" label="Situação" styleClass="form-control" required="true" disabled="true"
+                                         value="#{empresaController.newEmpresa.situacao}">
+                            <f:selectItem itemLabel="Pendente" itemValue="P"/>
+                        </h:selectOneMenu>
+                        <h:message for="situacaoDisable" errorClass="invalid"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="form-group" rendered="#{empresaController.id!=null}">
+                        <label for="situacao">Situação</label>
+                        <h:selectOneMenu id="situacao" label="Situação" styleClass="form-control" required="true"
+                                         value="#{empresaController.newEmpresa.situacao}">
+                            <f:selectItem/>
+                            <f:selectItem itemLabel="Ativo" itemValue="A"/>
+                            <f:selectItem itemLabel="Inativo" itemValue="I"/>
+                            <f:selectItem itemLabel="Pendente" itemValue="P"/>
+                        </h:selectOneMenu>
+                        <h:message for="situacao" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="cep">CEP</label>
+                        <h:inputText id="cep" label="Endereço" styleClass="form-control" maxlength="11" required="true"
+                                     value="#{empresaController.newEmpresa.cep}"/>
+                        <h:message for="cep" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="cidade">Cidade</label>
+                        <h:selectOneMenu id="cidade" label="Cidade" styleClass="form-control" required="true"
+                                         value="#{empresaController.newEmpresa.cidade}">
+                            <f:selectItem/>
+                            <f:selectItem itemLabel="Formosa - GO" itemValue="1"/>
+                            <f:selectItem itemLabel="Planaltina - GO" itemValue="2"/>
+                        </h:selectOneMenu>
+                        <h:message for="cidade" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="endereco">Endereço</label>
+                        <h:inputText id="endereco" label="Endereço" styleClass="form-control" maxlength="120" required="true"
+                                     value="#{empresaController.newEmpresa.endereco}"/>
+                        <h:message for="endereco" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="email">Email</label>
+                        <h:inputText id="email" label="Email" styleClass="form-control" maxlength="50"
+                                     value="#{empresaController.newEmpresa.email}"/>
+                        <h:message for="email" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="telefone">Telefone</label>
+                        <h:inputText id="telefone" label="Telefone" styleClass="form-control" required="true"
+                                     value="#{empresaController.newEmpresa.telefone}"/>
+                        <h:message for="telefone" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="telefonew">Telefone 2</label>
+                        <h:inputText id="telefonew" label="Telefone 2" styleClass="form-control"
+                                     value="#{empresaController.newEmpresa.telefone2}"/>
+                        <h:message for="telefonew" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-footer">
+                    <div class="btn-group">
+                        <h:commandButton id="register" action="#{empresaController.register}" value="Salvar" styleClass="btn btn-primary"/>
+                        <h:commandButton id="cancelar" action="/private/empresa/filtrar_empresa.jsf" value="Cancelar" styleClass="btn btn-default"/>
+                    </div>
+                        <h:commandButton id="remover" action="#{empresaController.remove}" value="Remover" styleClass="btn btn-warning pull-right"
+                                rendered="#{empresaController.id!=null}"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>

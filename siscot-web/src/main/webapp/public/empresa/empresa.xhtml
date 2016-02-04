@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/client/client.xhtml">
+    <f:metadata>
+        <f:viewParam name="id" value='#{empresaController.id}'/>
+        <f:event type="preRenderView" listener='#{empresaController.retrieve}'/>
+    </f:metadata>
+
+    <ui:define name="main">
+        <h:form id="reg" role="form" prependId="false">
+            <h:panelGroup layout="block" styleClass="register-box">
+                <div class="register-logo">
+                    <b>Cadastre-se</b>
+                </div>
+
+                <h:panelGroup layout="block" styleClass="register-box-body">
+                    
+                    <h:panelGroup layout="block" styleClass="form-group has-feedback">
+                        <h:inputText id="empresa" label="Empresa" styleClass="form-control" maxlength="30" required="true"
+                                     requiredMessage="Nome fantasia é obrigatório"
+                                     value="#{empresaController.newEmpresa.nomeFantasia}"/>
+                        <h:message for="empresa"  style="color: red"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup layout="block" styleClass="form-group has-feedback">
+                        <h:inputText id="cnpj" label="CNPJ" styleClass="form-control" maxlength="19" required="true"
+                                     requiredMessage="CNPJ é obrigatório"
+                                     value="#{empresaController.newEmpresa.cnpj}"/>
+                        <h:message for="cnpj" style="color: red"/>
+                    </h:panelGroup>
+               
+                    <h:panelGroup layout="block" styleClass="form-group has-feedback">
+                        <h:inputText id="razaoSocial" label="Razão Social" styleClass="form-control" maxlength="50" required="true"
+                                     requiredMessage="Razão Social é obrigatório"
+                                     value="#{empresaController.newEmpresa.razaoSocial}"/>
+                        <h:message for="razaoSocial" style="color: red"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup layout="block" styleClass="form-group has-feedback">
+                        <h:inputText id="cep" label="CEP" styleClass="form-control" maxlength="11" required="true"
+                                     requiredMessage="CEP é obrigatório"
+                                     value="#{empresaController.newEmpresa.cep}"/>
+                        <h:message for="cep" style="color: red"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup layout="block" styleClass="form-group has-feedback">
+                        <h:inputText id="endereco" label="Endereço" styleClass="form-control" maxlength="120" required="true"
+                                     requiredMessage="Endereço é obrigatório"
+                                     value="#{empresaController.newEmpresa.endereco}"/>
+                        <h:message for="endereco" style="color: red"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup layout="block" styleClass="form-group has-feedback">
+                        <h:inputText id="telefone" label="Telefone" styleClass="form-control" required="true"
+                                     requiredMessage="Telefone é obrigatório"
+                                     value="#{empresaController.newEmpresa.telefone}"/>
+                        <h:message for="telefone" style="color: red"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="form-group has-feedback">
+                        <h:inputText id="telefonew" label="Telefone 2" styleClass="form-control"
+                                     value="#{empresaController.newEmpresa.telefone2}"/>
+                        <h:message for="telefonew" style="color: red"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" styleClass="form-group has-feedback">
+                        <h:inputText id="email" label="Email" styleClass="form-control" maxlength="50" required="true"
+                                     requiredMessage="Email é obrigatório"
+                                     value="#{empresaController.newEmpresa.email}"/>
+                        <h:message for="email" style="color: red"/>
+                    </h:panelGroup>
+
+
+                    <h:panelGroup layout="block" styleClass="form-group has-feedback">
+                        <h:inputSecret value="#{empresaController.newEmpresa.password}" id="senha" maxlength="64" styleClass="form-control"
+                                       required="true" requiredMessage="Senha é obrigatório."/>
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <h:message for="senha" style="color: red"/>
+                    </h:panelGroup>
+
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox"/> Eu aceito os <a href="#">termos</a>
+                                </label>
+                            </div>
+                        </div><!-- /.col -->
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h:commandButton id="register" action="#{empresaController.registerExterno}" value="Salvar" styleClass="btn btn-primary btn-block btn-flat"/>
+                        </div><!-- /.col -->
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#cep").inputmask("99.999-999");
+                $("#cnpj").inputmask("99.999.999/9999-99");
+                $("#telefonew").inputmask("(99)9999-9999");
+                $("#telefone").inputmask("(99)9999-9999");
+
+                $("#email").attr('placeholder', 'Email');
+                $("#telefonew").attr('placeholder', 'Telefone Auxiliar');
+                $("#telefone").attr('placeholder', 'Telefone');
+                $("#endereco").attr('placeholder', 'Endereço');
+                $("#cep").attr('placeholder', 'Cep');
+                $("#cnpj").attr('placeholder', 'CNPJ');
+                $("#razaoSocial").attr('placeholder', 'Razão Social');
+                $("#empresa").attr('placeholder', 'Nome Fantasia');
+                $("#senha").attr('placeholder', 'Senha');
+            } );
+
+            $(function () {
+                $('input').iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue',
+                    increaseArea: '20%' // optional
+                });
+            });
+        </script>
+    </ui:define>
+</ui:composition>

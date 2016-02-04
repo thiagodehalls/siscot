@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/client/client.xhtml">
+
+    <ui:define name="main">
+
+        <section class="invoice">
+
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="glyphicon glyphicon-barcode"></i> Lista de Compras
+                    </h2>
+                </div>
+            </div>
+
+            <h:form prependId="false">
+                
+                <h:panelGroup layout="block" styleClass="row">
+
+                    <h:panelGroup layout="block" styleClass="col-xs-12 table-responsive">
+                        <table id="estoques" class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Qtd. Produtos</th>
+                                <td></td>
+                            </tr>
+                            <ui:repeat var="_lista" value="#{listaCompraController.listaCompras}">
+                                <tr>
+                                    <td>
+                                        #{_lista.nome}
+                                    </td>
+                                    <td>
+                                        <h:outputText value="#{fn:length(_lista.itemsListaCompra)}">
+                                            <f:convertNumber integerOnly="true"/>
+                                        </h:outputText>
+                                    </td>
+                                    <td>
+                                        <div style="font-size: 22px ">
+                                            <h:link outcome="/public/lista/manter_lista.jsf">
+                                                <f:param name="id" value="#{_lista.id}"/>
+                                                <i class="glyphicon glyphicon-list-alt"/>
+                                            </h:link>
+                                            <h:commandLink action="#{compraController.obterValoreListaCompra(_lista)}" >
+                                                <i class="glyphicon glyphicon-shopping-cart"/>
+                                            </h:commandLink>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-footer">
+                    <h:link outcome="/public/lista/manter_lista" value="Nova lista" styleClass="btn btn-default pull-right" >
+                        <i class="glyphicon glyphicon-plus"/>
+                    </h:link>
+                </h:panelGroup>
+            </h:form>
+        </section>
+    </ui:define>
+</ui:composition>

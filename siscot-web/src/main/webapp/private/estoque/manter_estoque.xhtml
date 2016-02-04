@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="id" value='#{estoqueController.id}'/>
+        <f:event type="preRenderView" listener='#{estoqueController.retrieve}'/>
+    </f:metadata>
+
+    <ui:define name="page_header">
+        Estoque
+    </ui:define>
+    <ui:define name="optional_description">
+        Manutenção de Estoque
+    </ui:define>
+    <ui:define name="main">
+        <h:form id="reg" role="form" prependId="false">
+        <h:panelGroup layout="block" styleClass="box box-primary">
+
+            <h:panelGroup layout="block" styleClass="box-header with-border">
+                <h3 class="box-title">Incluir/Editar Estoque</h3>
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" styleClass="box-body">
+                <h:panelGroup layout="block" styleClass="form-group">
+                    <label for="estoques">Produto</label>
+
+                    <table id="estoques" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                        	<th>Código</th>
+                            <th>Produto</th>
+                            <th>Valor Unitário</th>
+                            <th>Quantidade</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat var="_estoque" value="#{estoqueController.estoques}">
+                                <tr>
+                                	<td><h:inputText id="estoqueCodigo" styleClass="form-control" value="#{_estoque.codigo}"/></td>
+                                    <td>#{_estoque.produto.nome}</td>
+                                    <td><h:inputText id="estoqueValorUnitario" styleClass="form-control, dinheiro" value="#{_estoque.valorUnitario}"/></td>
+                                    <td><h:inputText id="estoqueQuantidade" styleClass="form-control, decimal" value="#{_estoque.quantidade}"/></td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-footer">
+                    <div class="btn-group">
+                        <h:commandButton id="register" action="#{estoqueController.register}" value="Salvar" styleClass="btn btn-primary"/>
+                        <h:commandButton id="cancelar" action="/private/estoque/filtrar_empresa_estoque.jsf" value="Cancelar" styleClass="btn btn-default"/>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+
+        </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>

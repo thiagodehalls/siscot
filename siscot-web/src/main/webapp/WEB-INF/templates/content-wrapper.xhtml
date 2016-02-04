@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+
+            <h1>
+                <!--Page Header-->
+                <ui:insert name="page_header"/>
+                <small>
+                    <!--Optional description-->
+                    <ui:insert name="optional_description"/>
+                </small>
+            </h1>
+            <ol class="breadcrumb">
+                <!--Optional breadcrumb-->
+                <ui:define name="breadcrumb"/>
+                <!--Sample breadcrumb
+                 Result:
+                    Level > Here
+
+                 Code:
+                    <li>
+                        <a href="#"><i class="fa fa-dashboard"></i> Level</a>
+                    </li>
+                    <li class="active">Here</li>
+
+                -->
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Your Page Content Here -->
+            <ui:insert name="main" />
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+
+</ui:composition>

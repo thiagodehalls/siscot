@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="page_header">
+        Produto
+    </ui:define>
+    <ui:define name="optional_description">
+        Pesquisa de produtos
+    </ui:define>
+    <ui:define name="main">
+        <h:form id="reg" role="form" prependId="false">
+            <h:panelGroup layout="block" styleClass="box box-primary">
+                <h:panelGroup layout="block" styleClass="box-header with-border">
+                    <h3 class="box-title">Pesquisa</h3>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="produto">Produto</label>
+                        <h:inputText id="produto" styleClass="form-control" maxlength="50"
+                                     value="#{filterProduto.nome}"/>
+                        <h:message for="produto" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="descricao">Descrição</label>
+                        <h:inputText id="descricao" styleClass="form-control" maxlength="50"
+                                     value="#{filterProduto.descricao}"/>
+                        <h:message for="descricao" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="keywords">Palavras Chaves</label>
+                        <h:inputText id="keywords" styleClass="form-control" maxlength="500"
+                                     value="#{filterProduto.palavrasChave}"/>
+                        <h:message for="keywords" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="categoria">Categoria</label>
+                        <h:selectOneMenu id="categoria" styleClass="form-control"
+                                     value="#{filterProduto.categoria.id}">
+                            <f:selectItem/>
+                            <f:selectItems value="#{categorias}" var="_item" itemValue="#{_item.id}" itemLabel="#{_item.nome}"/>
+                        </h:selectOneMenu>
+                        <h:message for="categoria" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+
+                <h:panelGroup layout="block" styleClass="box-footer">
+                    <h:commandButton id="filtar" action="#{produtoListProducer.findProdutoOrderByNome}" value="Consultar" styleClass="btn btn-warning"/>
+                    <h:link outcome="/private/produto/manter_produto" value="Novo" styleClass="btn btn-default pull-right" />
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+
+        <h:panelGroup layout="block" styleClass="box">
+            <h:panelGroup layout="block" styleClass="box-header">
+                <h3 class="box-title">Produtos-</h3>
+            </h:panelGroup>
+            <h:panelGroup layout="block" styleClass="box-body">
+                <table id="produtos" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Médida</th>
+                        <th>Categoria</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat var="_produto" value="#{produtos}">
+                        <tr>
+                            <td>
+                                <h:link outcome="/private/produto/manter_produto">
+                                    <f:param name="id" value="#{_produto.id}"/>
+                                    <h:outputText id="_nome" value="#{_produto.nome}"/>
+                                </h:link>
+                            </td>
+                            <td>
+                                <h:link outcome="/private/produto/manter_produto">
+                                    <f:param name="id" value="#{_produto.id}"/>
+                                    <h:outputText id="_descricao" value="#{_produto.descricao}"/>
+                                </h:link>
+                            </td>
+                            <td>
+                                <h:outputText id="_medida" value="#{_produto.medida}"/>
+                            </td>
+                            <td>
+                                <h:outputText id="_categoria" value="#{_produto.categoria.nome}"/>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

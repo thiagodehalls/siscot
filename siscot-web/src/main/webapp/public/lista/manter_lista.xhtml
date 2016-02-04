@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/client/client.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value='#{listaCompraController.id}'/>
+        <f:event type="preRenderView" listener='#{listaCompraController.retrieve}'/>
+    </f:metadata>
+
+    <ui:define name="main">
+
+        <section class="invoice">
+
+            <h:panelGroup layout="block" styleClass="box box-warning box-solid" id="messagens" rendered="#{not empty facesContext.maximumSeverity}">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Messagem</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <h4>
+                        <h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning" globalOnly="false"/>
+                    </h4>
+                </div>
+            </h:panelGroup>
+
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="glyphicon glyphicon-barcode"></i> Lista de Compras
+                    </h2>
+                </div>
+            </div>
+
+            <h:form prependId="false">
+
+                <h:panelGroup layout="block" styleClass="row">
+                        <div class="col-md-12">
+
+                            <h:panelGroup layout="block" styleClass="box-body">
+                                <h:panelGroup layout="block" styleClass="form-group">
+                                    <h:inputText id="lista" label="Lista" styleClass="form-control" maxlength="30" required="true"
+                                                 requiredMessage="Favor, informar um nome pra lista de compra."
+                                                 value="#{listaCompraController.newListaCompra.nome}"/>
+                                    <h:message for="lista"  errorClass="invalid"/>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" styleClass="box-body">
+                                <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs pull-right">
+                                        <ui:repeat value="#{listaCompraController.categoriasEager}" var="categoria" varStatus="linha">
+                                            <li class="#{linha.index==0 ? 'active' : ''}"><a href="#tab_#{linha.index}-#{linha.index}" data-toggle="tab">#{categoria.nome}</a></li>
+                                        </ui:repeat>
+                                        <li class="pull-left header"><i class="fa fa-th"></i> Categorias</li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <ui:repeat value="#{listaCompraController.categoriasEager}" var="categoria" varStatus="linha">
+                                            <div class="tab-pane active" id="tab_#{linha.index}-#{linha.index}">
+                                                <div class="table-responsive" style="overflow-x: initial;">
+                                                    <table class="table table-bordered table-striped">
+                                                        <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Produto</th>
+                                                            <th style="width: 50px;">Qtd</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <ui:repeat var="_produto" value="#{categoria.produtos}">
+                                                            <tr>
+                                                                <td style="width: 30px;">
+                                                                    <h:selectBooleanCheckbox value="#{_produto.selecinado}">
+                                                                        <f:ajax execute="@this"/>
+                                                                    </h:selectBooleanCheckbox>
+                                                                </td>
+                                                                <td>#{_produto.nome}</td>
+                                                                <td style="width: 50px;"><h:inputText value="#{_produto.quantidade}" styleClass="form-control" style="width: 50px;"/></td>
+                                                            </tr>
+                                                        </ui:repeat>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </div>
+
+                        <h:panelGroup layout="block" styleClass="box-footer">
+                            <div class="btn-group">
+                                <h:commandButton id="register" action="#{listaCompraController.register}" value="Salvar" styleClass="btn btn-primary"/>
+                                <h:commandButton id="cancelar" immediate="true" action="/public/lista/visualiza.jsf" value="Cancelar" styleClass="btn btn-default"/>
+                            </div>
+                            <h:commandButton id="remover" action="#{listaCompraController.remove}" value="Remover" styleClass="btn btn-warning pull-right"
+                                             rendered="#{listaCompraController.id!=null}"/>
+                        </h:panelGroup>
+
+                </h:panelGroup>
+
+                <h:outputScript>
+
+                    $(document).ready(function() {
+                        $("#lista").attr('placeholder', 'Nome da lista de Compra');
+
+                    if($('#messagens').is(':visible')){
+                        setTimeout(function() {
+                            $('#messagens').hide();
+                        }, 10000);
+                    }
+
+                    } );
+
+                    $(function () {
+
+                        $('.table-striped').dataTable( {
+                            "language": {
+                                url: "#{resource['plugins/datatables/extensions/lang/Portuguese-Brasil.json']}"
+                            },
+                            "paging": true,
+                            "lengthChange": false,
+                            "searching": true,
+                            "ordering": false,
+                            "info": false,
+                            "autoWidth": false
+                        } );
+
+
+
+                        //Enable iCheck plugin for checkboxes
+                        //iCheck for checkbox and radio inputs
+                        $('.table input[type="checkbox"]').iCheck({
+                            checkboxClass: 'icheckbox_square-blue',
+                            radioClass: 'iradio_flat-blue'
+                        });
+
+                        //Enable check and uncheck all functionality
+                        $(".checkbox-toggle").click(function () {
+                            var clicks = $(this).data('clicks');
+                            if (clicks) {
+                                //Uncheck all checkboxes
+                                $(".table input[type='checkbox']").iCheck("uncheck");
+                                $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+                            } else {
+                                //Check all checkboxes
+                                $(".table input[type='checkbox']").iCheck("check");
+                                $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+                            }
+                            $(this).data("clicks", !clicks);
+                        });
+                    });
+                </h:outputScript>
+
+            </h:form>
+        </section>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/client/client.xhtml">
+
+    <ui:define name="main">
+
+        <section class="invoice">
+
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="glyphicon glyphicon-alert"></i> Compras Pendentes
+                    </h2>
+                </div>
+            </div>
+
+            <p class="text-muted well well-sm no-shadow">
+                Prezado cliente segue a listagem de compras pendentes, aguardando resposta dos fornecedores para conclusão.
+            </p>
+
+            <h:form prependId="false">
+
+                <h:panelGroup layout="block" styleClass="row">
+
+                    <h:panelGroup layout="block" styleClass="col-xs-12 table-responsive">
+                        <table id="estoques" class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th>Código</th>
+                                <th>Data/Hora</th>
+                                <th>Qtd. Itens</th>
+                                <th>Valor</th>
+                                <td></td>
+                            </tr>
+                            <ui:repeat var="_compra" value="#{comprasPendentes}">
+                                <tr>
+                                    <td>
+                                        <h:outputText value="#{_compra.id}">
+                                            <f:convertNumber groupingUsed="true" pattern="#000000"/>
+                                        </h:outputText>
+                                    </td>
+                                    <td>
+                                        <h:outputText value="#{_compra.dataHora}">
+                                            <f:convertDateTime locale="pt_br" pattern="dd/MM/yyyy hh:mm:ss " />
+                                        </h:outputText>
+                                    </td>
+                                    <td>
+                                        <h:outputText value="#{fn:length(_compra.itemCompras)}"/>
+                                    </td>
+                                    <td>
+                                        <h:outputText value="#{_compra.valorTotalCompra}">
+                                            <f:converter converterId="ConverterBigDecimalBrasileiroSimples" />
+                                        </h:outputText>
+                                    </td>
+                                    <td>
+                                        <h:link outcome="/public/compra/visualiza">
+                                            <f:param name="id" value="#{_compra.id}"/>
+                                            <i class="glyphicon glyphicon-open-file"/>
+                                        </h:link>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:form>
+        </section>
+    </ui:define>
+</ui:composition>

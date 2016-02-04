@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="id" value='#{produtoController.id}'/>
+        <f:event type="preRenderView" listener='#{produtoController.retrieve}'/>
+    </f:metadata>
+
+    <ui:define name="page_header">
+        Produto
+    </ui:define>
+    <ui:define name="optional_description">
+        Manutenção de produto
+    </ui:define>
+    <ui:define name="main">
+        <h:form id="reg" role="form" prependId="false">
+            <h:panelGroup layout="block" styleClass="box box-primary">
+                <h:panelGroup layout="block" styleClass="box-header with-border">
+                    <h3 class="box-title">Incluir/Editar Produtos</h3>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="produto">Produto</label>
+                        <h:inputText id="produto" label="Produto" styleClass="form-control" maxlength="50" required="true"
+                                     value="#{produtoController.newProduto.nome}"/>
+                        <h:message for="produto"  errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="descricao">Descrição</label>
+                        <h:inputText id="descricao" label="Descrição" styleClass="form-control" maxlength="50"
+                                     value="#{produtoController.newProduto.descricao}"/>
+                        <h:message for="descricao" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="keywords">Palavras Chaves (Separe por ';')</label>
+                        <h:inputText id="keywords" label="Palavras Chaves" styleClass="form-control" maxlength="500"
+                                     value="#{produtoController.newProduto.palavrasChave}"/>
+                        <h:message for="keywords" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="categoria">Categoria</label>
+                        <h:selectOneMenu id="categoria" label="Categoria" styleClass="form-control" required="true"
+                                         value="#{produtoController.newProduto.categoria.id}">
+                            <f:selectItem/>
+                            <f:selectItems value="#{categorias}" var="_item" itemValue="#{_item.id}" itemLabel="#{_item.nome}"/>
+                        </h:selectOneMenu>
+                        <h:message for="categoria" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="unidadeMedida">Unidade Medida</label>
+                        <h:selectOneMenu id="unidadeMedida" label="Unidade Medida" styleClass="form-control" required="true"
+                                         value="#{produtoController.newProduto.unidadeMedida.id}">
+                            <f:selectItem/>
+                            <f:selectItems value="#{unidadeMedidas}" var="_item" itemValue="#{_item.id}" itemLabel="#{_item.nome}"/>
+                        </h:selectOneMenu>
+                        <h:message for="unidadeMedida" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="medida">Medida</label>
+                        <h:inputText id="medida" label="Medida" styleClass="form-control, decimal" required="true"
+                                     value="#{produtoController.newProduto.medida}"/>
+                        <h:message for="medida" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="marcaFabricante">Marca/Fabricante</label>
+                        <h:selectOneMenu id="marcaFabricante" label="Marca/Fabricante" styleClass="form-control" required="true"
+                                         value="#{produtoController.newProduto.marcaFabricante.id}">
+                            <f:selectItem/>
+                            <f:selectItems value="#{marcaFabricantes}" var="_item" itemValue="#{_item.id}" itemLabel="#{_item.nome}"/>
+                        </h:selectOneMenu>
+                        <h:message for="marcaFabricante" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="marcaFabricante">Destaque</label>
+                        <h:selectOneMenu id="destaque" label="Destaque" styleClass="form-control" required="true"
+                                         value="#{produtoController.newProduto.destaque}">
+                            <f:selectItem itemValue="S" itemLabel="Sim"/>
+                            <f:selectItem itemValue="N" itemLabel="Não"/>
+                        </h:selectOneMenu>
+                        <h:message for="destaque" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body" id="atributos">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label>Atributos</label>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Valor</th>
+                                    <th>Ordem de Exibição</th>
+                                    <th style="width: 10px">#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ui:repeat value="#{produtoController.newProduto.atributos}" var="_item" varStatus="row">
+                                    <tr>
+                                        <td>#{_item.nome}</td>
+                                        <td>#{_item.texto}</td>
+                                        <td>#{_item.ordem}</td>
+                                        <td>
+                                            <h:commandLink style="margin: 10px !important; vertical-align: bottom;">
+                                                <span class="glyphicon glyphicon-trash"/>
+                                                <f:ajax listener="#{produtoController.removeAtributo(_item)}" event="click" render="@form"/>
+                                            </h:commandLink>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><h:inputText value="#{produtoController.newAtributo.nome}" id="newAtributoNome" styleClass="form-control" maxlength="20"/></td>
+                                    <td><h:inputText value="#{produtoController.newAtributo.texto}" id="newAtributoTexto"  styleClass="form-control" maxlength="100"/></td>
+                                    <td><h:inputText value="#{produtoController.newAtributo.ordem}" id="newAtributoOrdem" styleClass="form-control" /></td>
+                                    <td>
+                                        <h:commandLink style="margin: 10px !important; vertical-align: bottom;">
+                                            <span class="glyphicon glyphicon-plus"/>
+                                            <f:ajax listener="#{produtoController.registerAtributo}" render="atributos" event="click"/>
+                                        </h:commandLink>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </h:panelGroup>
+                </h:panelGroup>
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label>Images</label>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Caminho</th>
+                                <th>Ordem de Exibição</th>
+                                <th style="width: 10px">#</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><h:inputText value="#{produtoController.newImagem.titulo}" id="newImagemTitulo" styleClass="form-control" maxlength="30"/></td>
+                                <td><h:inputText value="#{produtoController.newImagem.caminho}" id="newImagemCaminho" styleClass="form-control" maxlength="200"/></td>
+                                <td><h:inputText value="#{produtoController.newImagem.ordem}" id="newImagemOrdem" styleClass="form-control" /></td>
+                                <td>
+                                    <h:commandLink style="margin: 10px !important; vertical-align: bottom;">
+                                        <span class="glyphicon glyphicon-plus"/>
+                                        <f:ajax listener="#{produtoController.registerImagem}" render="@form" event="click"/>
+                                    </h:commandLink>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body" id="images">
+
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <div class="box-footer">
+                            <ul class="mailbox-attachments clearfix">
+                                <ui:repeat value="#{produtoController.newProduto.imagems}" var="_img">
+                                    <li>
+                                        <span class="mailbox-attachment-icon has-img">
+                                           <h:graphicImage value="/image/#{_img.caminho}" alt="#{_img.titulo}"/>
+                                        </span>
+                                        <div class="mailbox-attachment-info">
+                                            <i class="fa fa-camera"></i>
+                                            #{_img.titulo}
+                                        <span class="mailbox-attachment-size">
+                                          Ordem: #{_img.ordem}
+                                            <h:commandLink styleClass="btn btn-default btn-xs pull-right">
+                                                <span class="fa fa-trash"/>
+                                                <f:ajax listener="#{produtoController.removeImagem(_img)}" event="click" render="@form"/>
+                                            </h:commandLink>
+                                        </span>
+                                        </div>
+                                    </li>
+                                </ui:repeat>
+                            </ul>
+                        </div>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-footer">
+                    <div class="btn-group">
+                        <h:commandButton id="register" action="#{produtoController.register}" value="Salvar" styleClass="btn btn-primary"/>
+                        <h:commandButton id="cancelar" action="/private/produto/filtrar_produto.jsf" value="Cancelar" styleClass="btn btn-default"/>
+                    </div>
+                        <h:commandButton id="remover" action="#{produtoController.remove}" value="Remover" styleClass="btn btn-warning pull-right"
+                                rendered="#{produtoController.id!=null}"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   template="/WEB-INF/templates/client/client.xhtml">
+
+   <ui:define name="main">
+
+       <div class="row">
+           <h:panelGroup layout="block" styleClass="col-sm-6 col-xs-12">
+               <div class="info-box">
+                   <h:link outcome="/public/empresa/estoque/estoque.jsf" styleClass="info-box-icon bg-aqua">
+                       <i class="fa fa-cubes" style="line-height: 2 !important;"></i>
+                       <f:param name="id" value="#{empresaEstoque !=null ? empresaEstoque.cnpj : 'a'}"/>
+                   </h:link>
+                   <div class="info-box-content">
+                       <span class="info-box-text">Estoque</span>
+                       <span class="info-box-number">150</span>
+                   </div>
+               </div>
+           </h:panelGroup>
+           <h:panelGroup layout="block" styleClass="col-sm-6 col-xs-12">
+               <div class="info-box">
+                   <h:link outcome="/public/empresa/empresa.jsf" styleClass="info-box-icon bg-green">
+                        <f:param name="id" value="#{empresaEstoque !=null ? empresaEstoque.cnpj : 'a'}"/>
+                        <i class="fa fa-group" style="line-height: 2 !important;"></i>
+                   </h:link>
+
+                   <div class="info-box-content">
+                       <span class="info-box-text">Cadastre-se</span>
+                       <span class="info-box-number">Filia-se</span>
+                   </div>
+               </div>
+           </h:panelGroup>
+       </div><!-- /.row -->
+   </ui:define>
+
+
+</ui:composition>

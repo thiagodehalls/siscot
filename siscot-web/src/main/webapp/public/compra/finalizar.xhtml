@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/client/client.xhtml">
+
+    <ui:define name="main">
+
+        <section class="invoice">
+
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="glyphicon glyphicon-barcode"></i> Fechamento
+                    </h2>
+                </div>
+            </div>
+
+            <p class="text-muted well well-sm no-shadow">
+                Prezado cliente sua solicitaçao foi realizada com sucesso e uma cópia foi enviada para seu email, aguarde
+                a confirmaçao do(s) mercado(s) listado(s), para efetivar o(s) pagamento(s). Segue a listagem de pedido(s) gerado(s).
+            </p>
+
+            <h:form prependId="false">
+                
+                <ui:repeat value="#{compraController.subCompras}" var="_subCompra">
+
+                    <div class="row invoice-info">
+                        <div class="col-sm-12 invoice-col">
+                            #{_subCompra.empresa.nomeFantasia}
+                            <address>
+                                <strong>#{_subCompra.empresa.razaoSocial}</strong><br/>
+                                #{_subCompra.empresa.endereco}<br/>
+                                Formosa, GO<br/>
+                                Fone: #{_subCompra.empresa.telefone}<br/>
+                                Email: #{_subCompra.empresa.email}
+                            </address>
+                        </div>
+                    </div>
+
+                    <h:panelGroup layout="block" styleClass="row">
+
+                        <h:panelGroup layout="block" styleClass="col-xs-12 table-responsive">
+                            <table id="estoques" class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <th>Qtd</th>
+                                    <th>Produto</th>
+                                    <th>Valor Unitário</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                                <ui:repeat var="_item" value="#{_subCompra.itens}">
+                                    <tr>
+                                        <td>
+                                            #{_item.produto.nome}
+                                            <h:outputText value="&#160;" />
+                                            #{_item.produto.marcaFabricante.nome}
+                                            <h:outputText value="&#160;" />
+                                            <h:outputText value="#{_item.produto.medida}">
+                                                <f:converter converterId="ConverterBigDecimalBrasileiroSimples"/>
+                                            </h:outputText>
+                                            <h:outputText value="&#160;" />
+                                            #{_item.produto.unidadeMedida.sigla}
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{_item.quantidade}">
+                                                <f:convertNumber integerOnly="true"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{_item.valorUnitario}">
+                                                <f:converter converterId="ConverterBigDecimalBrasileiroSimples"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{_item.valor}">
+                                                <f:converter converterId="ConverterBigDecimalBrasileiroSimples"/>
+                                            </h:outputText>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                                <tr style="text-align: right; vertical-align: middle;">
+                                    <td colspan="4" style="text-align: right; padding-right: 10px;">
+                                        <b>
+                                            Total: <h:outputText value="#{clienteCompra.compra.valorTotalCompra}">
+                                            <f:converter converterId="ConverterBigDecimalBrasileiroSimples" />
+                                        </h:outputText>
+                                        </b>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <br/>
+                </ui:repeat>
+
+            </h:form>
+        </section>
+    </ui:define>
+</ui:composition>

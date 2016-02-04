@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+       <li class="header">Menu</li>
+       <!-- Optionally, you can add icons to the links -->
+       <li class="active"><a href="#{request.contextPath}/private/user/manter_usuario.jsf"><i class="fa fa-link"></i> <span>Usuários</span></a></li>
+       <li><a href="#{request.contextPath}/private/estoque/filtrar_empresa_estoque.jsf"><i class="fa fa-link"></i> <span>Estoque</span></a></li>
+       <li class="treeview">
+           <a href="#"><i class="fa fa-link"></i> <span>Parametros</span> <i class="fa fa-angle-left pull-right"></i></a>
+           <ul class="treeview-menu">
+               <li><a href="#{request.contextPath}/private/categoria/manter_categoria.jsf">Categoria</a></li>
+               <li><a href="#{request.contextPath}/private/marca/manter_marca_fabricante.jsf">Marca/Fabricante</a></li>
+               <li><a href="#{request.contextPath}/private/empresa/filtrar_empresa.jsf">Empresa</a></li>
+               <li><a href="#{request.contextPath}/private/medida/manter_unidade_medida.jsf">Unidade Médida</a></li>
+               <li><a href="#{request.contextPath}/private/produto/filtrar_produto.jsf">Produto</a></li>
+               <li><a href="#{request.contextPath}/private/produto/relacao/manter_relacao_produto.jsf">Relação Produto</a></li>
+           </ul>
+       </li>
+
+</ui:composition>

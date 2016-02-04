@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="/WEB-INF/templates/client/client.xhtml">
+                
+    <ui:define name="main">
+        <h:form id="reg" role="form" prependId="false" enctype="multipart/form-data">
+        <h:panelGroup layout="block" styleClass="box box-primary">
+
+            <h:panelGroup layout="block" styleClass="box-header with-border">
+                <h3 class="box-title">Incluir/Editar Estoque</h3>
+            </h:panelGroup>
+
+            <h:panelGroup layout="block" styleClass="box-body">
+                <h:panelGroup layout="block" styleClass="box box-warning box-solid" id="messagens" rendered="#{not empty facesContext.maximumSeverity}">
+	                <div class="box-header with-border">
+	                    <h3 class="box-title">Messagem</h3>
+	                    <div class="box-tools pull-right">
+	                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+	                    </div>
+	                </div>
+	                <div class="box-body">
+	                    <h4>
+	                        <h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning" globalOnly="false"/>
+	                    </h4>
+	                </div>
+	            </h:panelGroup>
+                
+                <h:panelGroup layout="block" styleClass="form-group">
+                    <label for="estoques">Produto</label>
+
+                    <table id="estoques" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                        	<th>Código</th>
+                            <th>Produto</th>
+                            <th>Valor Unitário</th>
+                            <th>Quantidade</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat var="_estoque" value="#{modeloEstoqueController.estoques}">
+                                <tr>
+                                	<td><h:inputText id="estoqueCodigo" styleClass="form-control" value="#{_estoque.codigo}"/></td>
+                                    <td>#{_estoque.produto.nome}</td>
+                                    <td>
+                                    	<h:inputText id="estoqueValorUnitario" styleClass="form-control, dinheiro" value="#{_estoque.valorUnitario}">
+                                    		<f:converter converterId="ConverterBigDecimalBrasileiroSimples"/>
+                                    	</h:inputText>
+                                    </td>
+                                    <td>
+                                    	<h:inputText id="estoqueQuantidade" styleClass="form-control" value="#{_estoque.quantidade}">
+                                    		<f:convertNumber integerOnly="true"/>
+                                    	</h:inputText>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                    
+                   	<h:inputFile value="#{modeloEstoqueController.file}" onchange="$('#upload').click()" />
+                  
+	                <h:commandLink id="upload" action="#{modeloEstoqueController.upload}" value="Upload" style="display:none;"/>
+	                    
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-footer">
+                    <div class="btn-group">
+                    	<h:commandLink id="download" action="#{modeloEstoqueController.export}" value="Download" styleClass="btn btn-default">
+		                     <f:param id="id" value="#{empresaEstoque.cnpj}"/>
+		                     <i class="fa fa-download"/>
+		                </h:commandLink>
+                    </div>
+                    
+                    <div class="pull-right">
+                        <h:commandButton id="register" action="#{modeloEstoqueController.register}" value="Salvar" styleClass="btn btn-primary"/>
+                        <h:commandButton id="cancelar" action="/private/empresa/estoque.jsf" immediate="true" value="Cancelar" styleClass="btn btn-default"/>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+
+        </h:panelGroup>
+        </h:form>
+        <h:outputScript>
+            $(function () {
+                $('.table-striped').dataTable( {
+                    "language": {
+                        url: "#{resource['plugins/datatables/extensions/lang/Portuguese-Brasil.json']}"
+                    }
+                } );
+            });
+        </h:outputScript>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/client/client.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value='#{trataPendenciaController.id}'/>
+        <f:event type="preRenderView" listener='#{trataPendenciaController.retrieve}'/>
+    </f:metadata>
+
+    <ui:define name="main">
+
+        <section class="invoice">
+
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="glyphicon glyphicon-barcode"></i> Tratar Itens Pendentes
+                    </h2>
+                </div>
+            </div>
+
+            <h:form prependId="false">
+                
+                 <div class="row invoice-info">
+                     <div class="col-sm-12 invoice-col">
+                         <strong>#{trataPendenciaController.subCompra.cliente.nome}</strong>
+                         <address>
+                             #{trataPendenciaController.subCompra.cliente.endereco} - Formosa, GO<br/>
+                             <strong>Cep:</strong> #{trataPendenciaController.subCompra.cliente.cep}<br/>
+                             <strong>Fone:</strong> #{trataPendenciaController.subCompra.cliente.telefoneResidencial}<br/>
+                             <strong>Email:</strong> #{trataPendenciaController.subCompra.cliente.email}
+                         </address>
+                     </div>
+                 </div>
+
+                 <h:panelGroup layout="block" styleClass="row">
+
+                     <h:panelGroup layout="block" styleClass="col-xs-12 table-responsive">
+                         <table id="estoques" class="table table-striped">
+                             <tbody>
+                             <tr>
+                                 <th>Produto</th>
+                                 <th>Qtd</th>
+                                 <th>Valor Unitário</th>
+                                 <th>Subtotal</th>
+                                 <th></th>
+                             </tr>
+                             <ui:repeat var="_item" value="#{trataPendenciaController.subCompra.itens}">
+                                 <tr>
+                                     <td>
+                                         #{_item.produto.nome}
+                                         <h:outputText value="&#160;" />
+                                         #{_item.produto.marcaFabricante.nome}
+                                         <h:outputText value="&#160;" />
+                                         <h:outputText value="#{_item.produto.medida}">
+                                             <f:convertNumber groupingUsed="true" locale="pt_br"
+                                                              type="number" maxFractionDigits="2"/>
+                                         </h:outputText>
+                                         <h:outputText value="&#160;" />
+                                         #{_item.produto.unidadeMedida.sigla}
+                                     </td>
+                                     <td>
+                                         <h:outputText value="#{_item.quantidade}">
+                                             <f:convertNumber integerOnly="true"/>
+                                         </h:outputText>
+                                     </td>
+                                     <td>
+                                         <h:outputText value="#{_item.valorUnitario}">
+                                             <f:converter converterId="ConverterBigDecimalBrasileiroSimples" />
+                                         </h:outputText>
+                                     </td>
+                                     <td>
+                                         <h:outputText value="#{_item.valor}">
+                                             <f:converter converterId="ConverterBigDecimalBrasileiroSimples" />
+                                         </h:outputText>
+                                     </td>
+                                     <td>
+                                     	<h:commandLink action="#{trataPendenciaController.aprovada(_item)}" title="Aprovar">
+                                     		<i class="glyphicon glyphicon-ok" style="font-size: 14pt;"/>
+                                     	</h:commandLink>
+                                     	
+                                     	<h:commandLink action="#{trataPendenciaController.recusar(_item)}" title="Recusar">
+                                     		<i class="glyphicon glyphicon-remove" style="font-size: 14pt;"/>
+                                     	</h:commandLink>
+                                     </td>
+                                 </tr>
+                             </ui:repeat>
+                             </tbody>
+                         </table>
+                     </h:panelGroup>
+                 </h:panelGroup>
+
+                 <br/>
+
+            </h:form>
+        </section>
+    </ui:define>
+</ui:composition>

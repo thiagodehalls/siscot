@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+                template="/WEB-INF/templates/client/client.xhtml">
+    <f:metadata>
+        <f:viewParam name="id" value='#{clienteController.id}'/>
+        <f:event type="preRenderView" listener='#{clienteController.retrieve}'/>
+    </f:metadata>
+    <ui:define name="main">
+        <h:form prependId="false">
+            <h:panelGroup layout="block" styleClass="register-box">
+                <div class="register-logo">
+                   <b>Cadastre-se</b>
+                </div>
+                <h:panelGroup layout="block" styleClass="register-box-body">
+                    <div class="form-group has-feedback">
+                        <h:inputText value="#{newCliente.nome}" id="nome" maxlength="50" styleClass="form-control"
+                                     required="true" requiredMessage="Nome é obrigatório."/>
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        <h:message for="nome" style="color: red"/>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <h:inputText value="#{newCliente.email}" id="email" maxlength="120" styleClass="form-control"
+                                     required="true" requiredMessage="Email é obrigatório."/>
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        <h:message for="email" style="color: red"/>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <h:inputText value="#{newCliente.cpf}" id="cpf" maxlength="14" styleClass="form-control"
+                                     required="true" requiredMessage="CPF é obrigatório."/>
+                        <span class="glyphicon glyphicon-file form-control-feedback"></span>
+                        <h:message for="cpf" style="color: red"/>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <h:inputText value="#{newCliente.dataNascimento}" id="dataNascimento" maxlength="10" styleClass="form-control"
+                                     required="true" requiredMessage="Nascimento é obrigatório.">
+                            <f:convertDateTime locale="pt-br" pattern="dd/mm/yyyy"/>
+                        </h:inputText>
+                        <span class="fa fa-calendar form-control-feedback"></span>
+                        <h:message for="dataNascimento" style="color: red"/>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <h:selectOneMenu value="#{newCliente.sexo}" id="sexo" styleClass="form-control select2"
+                                     required="true" requiredMessage="Sexo é obrigatório.">
+                            <f:selectItem/>
+                            <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                            <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                        </h:selectOneMenu>
+                        <h:message for="sexo" style="color: red"/>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <h:inputText value="#{newCliente.telefoneResidencial}" id="telefoneResidencial" maxlength="13" styleClass="form-control"
+                                     required="true" requiredMessage="Telefone é obrigatório."/>
+                        <span class="fa fa-phone form-control-feedback"></span>
+                        <h:message for="telefoneResidencial" style="color: red"/>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <h:inputText value="#{newCliente.cep}" id="cep" maxlength="11" styleClass="form-control"
+                                     required="true" requiredMessage="Cep é obrigatório."/>
+                        <span class="fa fa-send-o form-control-feedback"></span>
+                        <h:message for="cep" style="color: red"/>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <h:inputText value="#{newCliente.endereco}" id="endereco" maxlength="120" styleClass="form-control"
+                                     required="true" requiredMessage="Endereço é obrigatório."/>
+                        <span class="fa fa-home form-control-feedback"></span>
+                        <h:message for="endereco" style="color: red"/>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <h:inputSecret value="#{newCliente.password}" id="senha" maxlength="64" styleClass="form-control"
+                                     required="true" requiredMessage="Senha é obrigatório."/>
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <h:message for="senha" style="color: red"/>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox"/> Eu aceito os <a href="#">termos</a>
+                                </label>
+                            </div>
+                        </div><!-- /.col -->
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h:commandButton styleClass="btn btn-primary btn-block btn-flat" value="Salvar" action="#{clienteController.register}"/>
+                        </div><!-- /.col -->
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#cep").inputmask("99.999-999");
+                $("#cpf").inputmask("999.999.999-99");
+                $("#dataNascimento").inputmask("dd/mm/yyyy");
+                $("#telefoneResidencial").inputmask("(99)9999-9999");
+                $("#nome").attr('placeholder', 'Nome');
+                $("#email").attr('placeholder', 'Email');
+                $("#sexo").attr('placeholder', 'Sexo');
+                $("#endereco").attr('placeholder', 'Endereço');
+                $("#cep").attr('placeholder', 'Cep');
+                $("#cpf").attr('placeholder', 'CPF');
+                $("#dataNascimento").attr('placeholder', 'Nascimento');
+                $("#telefoneResidencial").attr('placeholder', 'Telefone');
+                $("#senha").attr('placeholder', 'Senha');
+            } );
+
+            $(function () {
+                $('input').iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue',
+                    increaseArea: '20%' // optional
+                });
+            });
+        </script>
+    </ui:define>
+</ui:composition>

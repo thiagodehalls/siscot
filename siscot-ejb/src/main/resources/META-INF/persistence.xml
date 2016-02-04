@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="siscot">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:jboss/datasources/siscotDs</jta-data-source>
+        <class>br.com.sicot.model.Atributo</class>
+        <class>br.com.sicot.model.Categoria</class>
+        <class>br.com.sicot.model.Cliente</class>
+        <class>br.com.sicot.model.Compra</class>
+        <class>br.com.sicot.model.Empresa</class>
+        <class>br.com.sicot.model.Estoque</class>
+        <class>br.com.sicot.model.Imagem</class>
+        <class>br.com.sicot.model.ItemCompra</class>
+        <class>br.com.sicot.model.MarcaFabricante</class>
+        <class>br.com.sicot.model.Produto</class>
+        <class>br.com.sicot.model.RelacaoProduto</class>
+        <class>br.com.sicot.model.UnidadeMedida</class>
+
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.default_schema" value="cotacao"/>
+        </properties>
+    </persistence-unit>
+</persistence>

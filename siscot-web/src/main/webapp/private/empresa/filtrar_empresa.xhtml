@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="page_header">
+        Empresa
+    </ui:define>
+    <ui:define name="optional_description">
+        Pesquisa de empresas
+    </ui:define>
+    <ui:define name="main">
+        <h:form id="reg" role="form" prependId="false">
+            <h:panelGroup layout="block" styleClass="box box-primary">
+                <h:panelGroup layout="block" styleClass="box-header with-border">
+                    <h3 class="box-title">Pesquisa</h3>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="empresa">Empresa</label>
+                        <h:inputText id="empresa" styleClass="form-control" maxlength="30"
+                                     value="#{filterEmpresa.nomeFantasia}"/>
+                        <h:message for="empresa" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="razaoSocial">Razão Social</label>
+                        <h:inputText id="razaoSocial" styleClass="form-control" maxlength="50"
+                                     value="#{filterEmpresa.razaoSocial}"/>
+                        <h:message for="razaoSocial" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="cnpj">CNPJ</label>
+                        <h:inputText id="cnpj" styleClass="form-control" maxlength="19"
+                                     value="#{filterEmpresa.cnpj}"/>
+                        <h:message for="cnpj" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="email">Email</label>
+                        <h:inputText id="email" styleClass="form-control" maxlength="50"
+                                     value="#{filterEmpresa.email}"/>
+                        <h:message for="email" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="cidade">Cidade</label>
+                        <h:selectOneMenu id="cidade" styleClass="form-control"
+                                     value="#{filterEmpresa.cidade}">
+                            <f:selectItem/>
+                            <f:selectItem itemLabel="Formosa - GO" itemValue="1"/>
+                            <f:selectItem itemLabel="Planaltina - GO" itemValue="2"/>
+                        </h:selectOneMenu>
+                        <h:message for="cidade" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="situacao">Situação</label>
+                        <h:selectOneMenu id="situacao" styleClass="form-control"
+                                         value="#{filterEmpresa.situacao}">
+                            <f:selectItem/>
+                            <f:selectItem itemLabel="Ativa" itemValue="A"/>
+                            <f:selectItem itemLabel="Inativa" itemValue="I"/>
+                            <f:selectItem itemLabel="Pendente" itemValue="P"/>
+                        </h:selectOneMenu>
+                        <h:message for="situacao" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+
+                <h:panelGroup layout="block" styleClass="box-footer">
+                    <h:commandButton id="filtar" action="#{empresaListProducer.findEmpresaOrderByNome()}" value="Consultar" styleClass="btn btn-warning"/>
+                    <h:link outcome="/private/empresa/manter_empresa" value="Novo" styleClass="btn btn-default pull-right" />
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+
+        <h:panelGroup layout="block" styleClass="box">
+            <h:panelGroup layout="block" styleClass="box-header">
+                <h3 class="box-title">Empresas-</h3>
+            </h:panelGroup>
+            <h:panelGroup layout="block" styleClass="box-body">
+                <table id="empresas" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Razão Social</th>
+                        <th>CNPJ</th>
+                        <th>Email</th>
+                        <th>Situação</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat var="_empresa" value="#{empresas}">
+                        <tr>
+                            <td>
+                                <h:link outcome="/private/empresa/manter_empresa">
+                                    <f:param name="id" value="#{_empresa.cnpj}"/>
+                                    <h:outputText id="_nome" value="#{_empresa.nomeFantasia}"/>
+                                </h:link>
+                            </td>
+                            <td>
+                                <h:link outcome="/private/empresa/manter_empresa">
+                                    <f:param name="id" value="#{_empresa.cnpj}"/>
+                                    <h:outputText id="_razao" value="#{_empresa.razaoSocial}"/>
+                                </h:link>
+                            </td>
+                            <td>
+                                <h:link outcome="/private/empresa/manter_empresa">
+                                    <f:param name="id" value="#{_empresa.cnpj}"/>
+                                    <h:outputText id="_cnpj" value="#{_empresa.cnpj}"/>
+                                </h:link>
+                            </td>
+                            <td>
+                                <h:outputText id="_email" value="#{_empresa.email}"/>
+                            </td>
+                            <td>
+                                <h:outputText id="_situacao" value="#{_empresa.situacao=='A' ? 'Ativo' : _empresa.situacao=='I' ? 'Inativo' : 'Pendente'}"/>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

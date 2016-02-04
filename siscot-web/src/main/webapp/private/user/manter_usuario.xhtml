@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value='#{userController.id}'/>
+        <f:event type="preRenderView" listener='#{userController.retrieve}'/>
+    </f:metadata>
+
+    <ui:define name="page_header">
+        Usuários
+    </ui:define>
+    <ui:define name="optional_description">
+        Manutenção de usuários.
+    </ui:define>
+    <ui:define name="main">
+        <h:form id="reg" role="form">
+            <h:panelGroup layout="block" styleClass="box box-primary">
+                <h:panelGroup layout="block" styleClass="box-header with-border">
+                    <h3 class="box-title">Inclusão/Alteração</h3>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="nome">Nome</label>
+                        <h:inputText id="nome" styleClass="form-control" name="Nome" rendered="true"
+                                     value="#{userController.newUser.nome}" maxlength="60"/>
+                        <h:message for="nome" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="email">Email</label>
+                        <h:inputText id="email" styleClass="form-control" name="Email" rendered="true"
+                                     value="#{userController.newUser.email}" maxlength="60"/>
+                        <h:message for="email" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="login">Login</label>
+                        <h:inputText id="login" styleClass="form-control" name="Login" rendered="true"
+                                     value="#{userController.newUser.id}" maxlength="64"/>
+                        <h:message for="login" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="senha">Senha</label>
+                        <h:inputSecret id="senha" styleClass="form-control" name="Login" rendered="true"
+                                     value="#{userController.newUser.password}" maxlength="64"/>
+                        <h:message for="senha" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-footer">
+                    <h:commandButton id="register" action="#{userController.register}" value="Salvar" styleClass="btn btn-primary"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+
+        <h:panelGroup layout="block" styleClass="box">
+            <h:panelGroup layout="block" styleClass="box-header">
+                <h3 class="box-title">Usuários</h3>
+            </h:panelGroup>
+            <h:panelGroup layout="block" styleClass="box-body">
+                <table id="usuarios" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Login</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat var="_user" value="#{users}">
+                        <tr>
+                            <td>
+                                <h:link outcome="/private/user/manter_usuario">
+                                    <f:param name="id" value="#{_user.id}"/>
+                                    <h:outputText id="_login" value="#{_user.id}"/>
+                                </h:link>
+                            </td>
+                            <td>
+                                <h:link outcome="/private/user/manter_usuario">
+                                    <f:param name="id" value="#{_user.id}"/>
+                                    <h:outputText id="_nome" value="#{_user.nome}"/>
+                                </h:link>
+                            </td>
+                            <td>
+                                <h:link outcome="/private/user/manter_usuario">
+                                    <f:param name="id" value="#{_user.id}"/>
+                                    <h:outputText id="_email" value="#{_user.email}"/>
+                                </h:link>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
+

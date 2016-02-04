@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value='#{unidadeMedidaController.id}'/>
+        <f:event type="preRenderView" listener='#{unidadeMedidaController.retrieve}'/>
+    </f:metadata>
+
+    <ui:define name="page_header">
+        Unidade de Médida
+    </ui:define>
+    <ui:define name="optional_description">
+        Manutenção de  unidade de médida
+    </ui:define>
+    <ui:define name="main">
+        <h:form id="reg" role="form" prependId="false">
+            <h:panelGroup layout="block" styleClass="box box-primary">
+                <h:panelGroup layout="block" styleClass="box-header with-border">
+                    <h3 class="box-title">Inclusão/Alteração</h3>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="unidade_medida">Unidade de Médida</label>
+                        <h:inputText id="unidade_medida" styleClass="form-control" maxlength="20"
+                               value="#{unidadeMedidaController.newUnidadeMedida.nome}"/>
+                        <h:message for="unidade_medida" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="sigla">Sigla</label>
+                        <h:inputText id="sigla" styleClass="form-control" maxlength="5"
+                                     value="#{unidadeMedidaController.newUnidadeMedida.sigla}"/>
+                        <h:message for="sigla" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+
+                <h:panelGroup layout="block" styleClass="box-footer">
+                    <h:commandButton id="register" action="#{unidadeMedidaController.register}" value="Salvar" styleClass="btn btn-primary"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+
+        <h:panelGroup layout="block" styleClass="box">
+            <h:panelGroup layout="block" styleClass="box-header">
+                <h3 class="box-title">Unidades de Médidas</h3>
+            </h:panelGroup>
+            <h:panelGroup layout="block" styleClass="box-body">
+                <table id="unidades" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Sigla</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat var="_unidade" value="#{unidadeMedidas}">
+                        <tr>
+                            <td>
+                                <h:link outcome="/private/medida/manter_unidade_medida">
+                                    <f:param name="id" value="#{_unidade.id}"/>
+                                    <h:outputText id="_nome" value="#{_unidade.nome}"/>
+                                </h:link>
+                            </td>
+                            <td>
+                                <h:link outcome="/private/medida/manter_unidade_medida">
+                                    <f:param name="id" value="#{_unidade.id}"/>
+                                    <h:outputText id="_sigla" value="#{_unidade.sigla}"/>
+                                </h:link>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

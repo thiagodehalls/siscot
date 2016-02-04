@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value='#{marcaFabricanteController.id}'/>
+        <f:event type="preRenderView" listener='#{marcaFabricanteController.retrieve}'/>
+    </f:metadata>
+
+    <ui:define name="page_header">
+        Marcas/Fabricantes
+    </ui:define>
+    <ui:define name="optional_description">
+        Manutenção de  marcas/fabricantes de produtos
+    </ui:define>
+    <ui:define name="main">
+        <h:form id="reg" role="form" prependId="false" lang="utf-8">
+            <h:panelGroup layout="block" styleClass="box box-primary">
+                <h:panelGroup layout="block" styleClass="box-header with-border">
+                    <h3 class="box-title">Inclusão/Alteração</h3>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" styleClass="box-body">
+                    <h:panelGroup layout="block" styleClass="form-group">
+                        <label for="marca">Marca/Fabricante</label>
+                        <input id="marca" class="form-control" placeholder="Marca/Fabricante" jsfc="h:inputText"
+                               value="#{marcaFabricanteController.newMarcaFabricante.nome}"/>
+                        <h:message for="marca" errorClass="invalid"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+
+                <h:panelGroup layout="block" styleClass="box-footer">
+                    <h:commandButton id="register" action="#{marcaFabricanteController.register}" value="Salvar" styleClass="btn btn-primary"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+
+        <h:panelGroup layout="block" styleClass="box">
+            <h:panelGroup layout="block" styleClass="box-header">
+                <h3 class="box-title">Marcas/Fabricantes</h3>
+            </h:panelGroup>
+            <h:panelGroup layout="block" styleClass="box-body">
+                <table id="marcas" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat var="_marca" value="#{marcaFabricantes}">
+                        <tr>
+                            <td>
+                                <h:link outcome="/private/marca/manter_marca_fabricante">
+                                    <f:param name="id" value="#{_marca.id}"/>
+                                    <h:outputText id="nome" value="#{_marca.nome}"/>
+                                </h:link>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

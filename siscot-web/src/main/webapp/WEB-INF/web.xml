@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <display-name>siscot</display-name>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+	<context-param>
+	    <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+	    <param-value>true</param-value>
+	</context-param>
+
+    <security-constraint>
+        <display-name>Admin</display-name>
+        <web-resource-collection>
+            <web-resource-name>PAGE</web-resource-name>
+            <url-pattern>/admin.jsf</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrador</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Private</display-name>
+        <web-resource-collection>
+            <web-resource-name>Private</web-resource-name>
+            <url-pattern>/private/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>*</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Categoria</display-name>
+        <web-resource-collection>
+            <web-resource-name>categoria</web-resource-name>
+            <url-pattern>/private/categoria/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrador</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Empresa</display-name>
+        <web-resource-collection>
+            <web-resource-name>empresa</web-resource-name>
+            <url-pattern>/private/empresa/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrador</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Estoque</display-name>
+        <web-resource-collection>
+            <web-resource-name>estoque</web-resource-name>
+            <url-pattern>/private/estoque/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrador</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Marca</display-name>
+        <web-resource-collection>
+            <web-resource-name>marca</web-resource-name>
+            <url-pattern>/private/marca/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrador</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Medida</display-name>
+        <web-resource-collection>
+            <web-resource-name>medida</web-resource-name>
+            <url-pattern>/private/medida/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrador</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Produto</display-name>
+        <web-resource-collection>
+            <web-resource-name>produto</web-resource-name>
+            <url-pattern>/private/produto/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrador</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Usuario</display-name>
+        <web-resource-collection>
+            <web-resource-name>user</web-resource-name>
+            <url-pattern>/private/user/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrador</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+
+    <security-constraint>
+        <display-name>Compra</display-name>
+        <web-resource-collection>
+            <web-resource-name>Compra</web-resource-name>
+            <url-pattern>/public/compra/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Client</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Lista de Compra</display-name>
+        <web-resource-collection>
+            <web-resource-name>lista</web-resource-name>
+            <url-pattern>/public/lista/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Client</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Estoque</display-name>
+        <web-resource-collection>
+            <web-resource-name>Estoque</web-resource-name>
+            <url-pattern>/public/empresa/estoque/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Empresa</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/login.html</form-login-page>
+            <form-error-page>/login.html</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <security-role>
+        <role-name>Administrador</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>Client</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>Empresa</role-name>
+    </security-role>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/login.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>304</error-code>
+        <location>/login.html</location>
+    </error-page>
+
+    <mime-mapping>
+        <extension>eot</extension>
+        <mime-type>fonts/font-awesome-4.5.0/fonts/fontawesome-webfont.eot</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>eot</extension>
+        <mime-type>fonts/ionicons-2.0.1/fonts/ionicons.eot</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>woff2</extension>
+        <mime-type>fonts/font-awesome-4.5.0/fonts/fontawesome-webfont.woff2</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>fonts/font-awesome-4.5.0/fonts/fontawesome-webfont.woff</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>fonts/ionicons-2.0.1/fonts/ionicons.woff</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>fonts/font-awesome-4.5.0/fonts/fontawesome-webfont.ttf</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>fonts/ionicons-2.0.1/fonts/ionicons.ttf</mime-type>
+    </mime-mapping>
+
+
+</web-app>
