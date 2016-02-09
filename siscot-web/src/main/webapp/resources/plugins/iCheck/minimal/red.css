@@ -5,13 +5,14 @@
     display: inline-block;
     *display: inline;
     vertical-align: middle;
-    margin: 0;
+    margin: 0px 3px 0px 6px;
     padding: 0;
     width: 18px;
     height: 18px;
-    background: url(red.png) no-repeat;
+    background: url("#{resource['plugins/iCheck/minimal/red.png']}") no-repeat;
     border: none;
     cursor: pointer;
+}
 }
 
 .icheckbox_minimal-red {

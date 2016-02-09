@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -39,7 +40,7 @@ public class HistoricoCompraClienteProducer implements Serializable {
 		Predicate[] predicates = getSearchPredicates(root, compra);
 
 		TypedQuery<Compra> query = (TypedQuery<Compra>) resource.produceTypedQuery(
-				criteria.select(root).distinct(true).where(predicates).orderBy(cb.desc(root.get("dataHora"))));
+				criteria.select(root).where(predicates).distinct(true).orderBy(cb.desc(root.get("dataHora"))));
 
 		return query.getResultList();
 	}
@@ -48,9 +49,16 @@ public class HistoricoCompraClienteProducer implements Serializable {
 		CriteriaBuilder builder = resource.produceCriteriaBuilder();
 		List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-		predicatesList.add(builder.equal(root.<Cliente> get("cliente").get("cpf"), compra.getCliente().getCpf()));
-		predicatesList.add(builder.between(root.<Date> get("dataHora"), compra.getDataInicio(), compra.getDataFim()));
-		predicatesList.add(builder.equal(root.<String> get("situacao"), compra.getSituacao()));
+		if(compra.getCliente()!=null && compra.getCliente().getCpf()!=null && !compra.getCliente().getCpf().isEmpty()){
+			predicatesList.add(builder.equal(root.<Cliente> get("cliente").get("cpf"), compra.getCliente().getCpf()));
+		}
+		
+		if(compra.getDataInicio()!=null && compra.getDataFim()!=null){
+			predicatesList.add(builder.between(root.<Date> get("dataHora"), compra.getDataInicio(), compra.getDataFim()));
+		}
+		if(compra.getSituacao()!=null && !compra.getSituacao().isEmpty()){
+			predicatesList.add(builder.equal(root.<String> get("situacao"), compra.getSituacao()));
+		}
 		return predicatesList.toArray(new Predicate[predicatesList.size()]);
 	}
 }

@@ -31,7 +31,7 @@
                    </div>
                </div>
            </h:panelGroup>
-           <h:panelGroup layout="block" styleClass="col-sm-6 col-xs-12">
+           <h:panelGroup layout="block" styleClass="col-sm-6 col-xs-12" rendered="#{clienteCompra.cpf==null}">
                <div class="info-box">
                    <a href="#{request.contextPath}/public/client/cadastro.jsf" class="info-box-icon bg-yellow">
                        <i class="glyphicon glyphicon-user" style="line-height: 2 !important;"></i>
@@ -42,9 +42,20 @@
                    </div>
                </div>
            </h:panelGroup>
+           <h:panelGroup layout="block" styleClass="col-sm-6 col-xs-12" rendered="#{clienteCompra.cpf != null}">
+           	   <div class="info-box">
+                   <a href="#{request.contextPath}/public/compra/historico.jsf" class="info-box-icon bg-yellow">
+                       <i class="fa fa-history" style="line-height: 2 !important;"></i>
+                   </a>
+                   <div class="info-box-content">
+                       <span class="info-box-text">Histórico de Compras</span>
+                       <span class="info-box-number">Veja o histórico de suas compras</span>
+                   </div>
+               </div>
+           </h:panelGroup>
            <h:panelGroup layout="block" styleClass="col-sm-6 col-xs-12">
                <div class="info-box">
-                   <a class="info-box-icon bg-yellow">
+                   <a href="#{request.contextPath}/public/compra/relatorio.jsf" class="info-box-icon bg-yellow">
                        <i class="glyphicon glyphicon-stats" style="line-height: 2 !important;"></i>
                    </a>
                    <div class="info-box-content">

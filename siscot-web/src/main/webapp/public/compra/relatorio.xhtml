@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/client/client.xhtml">
+
+	<ui:define name="main">
+
+		<script language="javascript" type="text/javascript">	    
+		
+		  function formatReal( int )
+		  {
+		          var tmp = int+'';
+		          tmp = tmp.replace(/([0-9]{2})$/g, ",$1");
+		          if( tmp.length > 6 )
+		                  tmp = tmp.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+
+		          return tmp;
+		  }
+		  
+		  $.ajax({
+				url: 'http://localhost:8080/siscot-web/rest/relatorioclienteultimacompra/cliente/#{clienteCompra.cpf}',
+				success: function(content){
+					
+			        //BAR CHART
+			        var bar = new Morris.Area({
+			          element: 'bar-chart',
+			          resize: true,
+			          data: content,
+			          xkey: 'mes',
+			          xLabelFormat: function (x) { return moment(x).locale('pt-br').format("MMM/YY");},
+			          ykeys: ['totalPagoMes', 'totalPrecoMedio'],
+			          labels: ['Total Pago', 'Total Médio'],
+			          lineColors: ['#a0d0e0', '#3c8dbc'],
+			          hideHover: 'auto',
+			          hoverCallback: function (index, options, content) {
+			        	  var row = options.data[index];
+
+			        	  var str = ''+row.totalPagoMes;
+			        	  var str1 = ''+row.totalPrecoMedio;
+			        	  		        	  
+			        	  var result = '<div class="morris-hover-row-label">'
+				        	  			+ moment(row.mes).locale('pt-br').format("MMM/YY")+'</div><div class="morris-hover-point">'
+			        	  				+'Pago: R$ ' + formatReal(parseInt( str.replace(/[\D]+/g,'') ) ) 
+			        	  				+'</div><div class="morris-hover-point">Médio: R$ ' 
+			        	  				+ formatReal(parseInt( str1.replace(/[\D]+/g,'') ) ) +'</div>';
+			        	  
+			        	  return result;
+			          }
+			        });
+				}
+		  });
+
+		  $.ajax({
+				url: 'http://localhost:8080/siscot-web/rest/relatorioclientedescontoobtido/cliente/#{clienteCompra.cpf}',
+				success: function(content){
+					
+					// LINE CHART
+			        var line = new Morris.Line({
+			          element: 'line-chart',
+			          resize: true,
+			          data: content,
+			          xkey: 'mes',
+			          xLabelFormat: function (x) { return moment(x).locale('pt-br').format("MMM/YY");},
+			          ykeys: ['totalDesconto'],
+			          labels: ['Desconto'],
+			          lineColors: ['#3c8dbc'],
+			          hideHover: 'auto',
+			          hoverCallback: function (index, options, content) {
+			        	  var row = options.data[index];
+
+			        	  var str = ''+row.totalDesconto;
+			        	  		        	  
+			        	  var result = '<div class="morris-hover-row-label">'
+				        	  			+ moment(row.mes).locale('pt-br').format("MMM/YY")+'</div><div class="morris-hover-point">'
+			        	  				+'Desconto: R$ ' + formatReal(parseInt( str.replace(/[\D]+/g,'') ) ) 
+			        	  				+'</div>';
+			        	  
+			        	  return result;
+			          }
+			        });
+				}
+		  });
+
+		  $.ajax({
+				url: 'http://localhost:8080/siscot-web/rest/relatorioclientedescontoobtido/cliente/totaldesconto/#{clienteCompra.cpf}',
+				success: function(content){
+					var str = ''+content.totalDesconto;
+
+					if(str=='0'){
+						$("#total_desconto").html('R$0,00');
+					}else{
+						$("#total_desconto").html('R$'+ formatReal(parseInt( str.replace(/[\D]+/g,''))));
+					}
+		        	  
+				}
+		  });
+
+		  $.ajax({
+				url: 'http://localhost:8080/siscot-web/rest/relatorioclientedescontoobtido/cliente/totalcompra/#{clienteCompra.cpf}',
+				success: function(content){
+					var str = ''+content.totalDesconto;
+
+					if(str=='0'){
+						$("#total_compra").html('R$0,00');
+					}else{
+						$("#total_compra").html('R$'+ formatReal(parseInt( str.replace(/[\D]+/g,''))));
+					}
+					
+					$("#hoje").html(moment(new Date()).locale('pt-br').format("DD/MM/YYYY"));
+				}
+		  });
+		  
+    	</script> 
+
+		<section class="invoice"> <!-- title row -->
+		<div class="row">
+			<div class="col-xs-12">
+				<h2 class="page-header">
+					<i class="glyphicon glyphicon-stats"></i> Relatórios
+				</h2>
+			</div>
+		</div>
+
+    	
+    	<h:form prependId="false">
+
+			<h:panelGroup layout="block" styleClass="row">
+				
+				<div class="col-xs-6">
+	              <p class="lead">Extrato até <span id="hoje"></span></p>
+	              <div class="table-responsive">
+	                <table class="table">
+	                  <tbody><tr>
+	                    <th style="width:50%">Total de compras:</th>
+	                    <td><span id="total_compra"></span></td>
+	                  </tr>
+	                  <tr>
+	                    <th>Total de descontos:</th>
+	                    <td><span id="total_desconto"></span></td>
+	                  </tr>
+	                </tbody>
+	               </table>
+	              </div>
+	            </div>
+				
+				<h:panelGroup layout="block" styleClass="col-md-12 table-responsive">
+
+					<!-- AREA CHART -->
+					<div class="box box-primary">
+						<div class="box-header with-border">
+		                  <h3 class="box-title">Valor Pago x Médio</h3>
+		                </div>
+						<div class="box-body chart-responsive">
+							<div class="chart" id="bar-chart" style="height: 300px;"></div>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<!-- /.box -->
+					
+					<!-- LINE CHART -->
+					<div class="box box-info">
+						<div class="box-header with-border">
+		                  <h3 class="box-title">Descontos do Últimos 12 Mêses</h3>
+		                </div>
+						<div class="box-body chart-responsive">
+							<div class="chart" id="line-chart" style="height: 300px;"></div>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<!-- /.box -->
+
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:form> </section>
+	</ui:define>
+</ui:composition>

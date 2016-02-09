@@ -1,17 +1,26 @@
 package br.com.sicot.data;
 
-import br.com.sicot.model.*;
-import br.com.sicot.util.Resources;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import br.com.sicot.model.Cliente;
+import br.com.sicot.model.Compra;
+import br.com.sicot.model.Empresa;
+import br.com.sicot.model.ItemCompra;
+import br.com.sicot.model.Produto;
+import br.com.sicot.util.Resources;
 
 /**
  * Created by thiago on 14/12/15.

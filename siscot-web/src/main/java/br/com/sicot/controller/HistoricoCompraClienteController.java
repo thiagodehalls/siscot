@@ -15,7 +15,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.sicot.data.HistoricoCompraClienteProducer;
+import br.com.sicot.data.RelatorioClienteListProducer;
 import br.com.sicot.model.Compra;
+import br.com.sicot.util.ClienteCompra;
 
 @Named
 @Stateful
@@ -30,16 +32,22 @@ public class HistoricoCompraClienteController {
 	
 	@Inject
 	private HistoricoCompraClienteProducer producer;
+	
+	@Inject
+	private ClienteCompra clienteCompra;
 
 	private List<Compra> compras;
 
 	private Compra filtroCompra;
 	
 	private String periodo;
+	
+	private String situacao;
 
 	@PostConstruct
 	private void init() {
 		filtroCompra = new Compra();
+		situacao = "";
 	}
 
 	@Named
@@ -55,15 +63,20 @@ public class HistoricoCompraClienteController {
             this.conversation.setTimeout(1800000L);
         }
 		
+		filtroCompra = new Compra();
+		filtroCompra.setCliente(clienteCompra.getClienteCompra());
+		
 		if(periodo!=null && !periodo.isEmpty()){
 			
 			String datas[] = periodo.split(" - ");
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("DD/MM/YYYY");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 			
 			filtroCompra.setDataInicio(sdf.parse(datas[0]));
-			filtroCompra.setDataInicio(sdf.parse(datas[1]));
+			filtroCompra.setDataFim(sdf.parse(datas[1]));
 		}
+		
+		filtroCompra.setSituacao(situacao);
 		
 		compras = producer.findHistoricoCompra(filtroCompra);
 
@@ -90,4 +103,11 @@ public class HistoricoCompraClienteController {
 		this.periodo = periodo;
 	}
 
+	public String getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
+	}
 }

@@ -32,7 +32,9 @@
         <h:outputStylesheet name="css/siscot.css" />
         <!-- iCheck -->
         <h:outputStylesheet name="plugins/iCheck/square/blue.css"/>
-       
+        <h:outputStylesheet name="plugins/iCheck/minimal/red.css"/>
+        <!-- Morris.js charts -->
+		<h:outputStylesheet name="plugins/morris/morris.css" />
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -79,6 +81,13 @@
             <h:outputScript name="plugins/iCheck/icheck.min.js"/>
             <!-- Select2 -->
             <h:outputScript name="plugins/select2/select2.full.min.js"/>
+            <!-- Morris.js charts -->
+			<h:outputScript name="plugins/morris/raphael-min.js" />
+			<h:outputScript name="plugins/morris/morris.min.js" />
+			<!-- Moment.js  -->
+			<h:outputScript name="plugins/moment/moment.min.js" />
+			<h:outputScript name="plugins/moment/moment-with-locales.js" />
+            
             <!-- Main Header-->
             <ui:include src="main-header-client.xhtml"/>
 

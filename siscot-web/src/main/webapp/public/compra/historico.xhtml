@@ -21,30 +21,36 @@
             </div>
 
             <h:form prependId="false">
-	             <h:panelGroup layout="block" styleClass="box-body">
-	                <h:panelGroup layout="block" styleClass="form-group">
-	                    <label for="situacao">Situação</label>
-	                    <input id="situacao" class="form-control" placeholder="Situação da Compra" jsfc="h:inputText"
-	                            value="#{historicoCompraClienteController.filtroCompra.situacao}" required="false"/>
-	                    <h:message for="Situação" errorClass="invalid"/>
-	                </h:panelGroup>
-	             </h:panelGroup>
-				
+
 				  <h:panelGroup layout="block" styleClass="box-body">
 	                <h:panelGroup layout="block" styleClass="form-group">
-	                    <label for="situacao">Período</label>
+	                    <label for="situacao">Período:</label>
 	                    <div class="input-group">
 	                      <div class="input-group-addon">
 	                        <i class="fa fa-calendar"></i>
 	                      </div>
-	                      <input type="text" id="periodo" class="form-control" jsfc="h:inputText" maxlength="24" size="24" readonly="true"
+	                      <input type="text" id="periodo" class="form-control" jsfc="h:inputText" maxlength="24" size="24"
 	                      	value="#{historicoCompraClienteController.periodo}"/>
 	                    </div>
 	                </h:panelGroup>
 	              </h:panelGroup>
+
+	             <h:panelGroup layout="block" styleClass="box-body">
+	                <h:panelGroup layout="block" styleClass="form-group">
+	                    <label for="situacao">Situação:</label>
+		                <div class="input-group">  
+		                    <h:selectOneRadio value="#{historicoCompraClienteController.situacao}">
+							   <f:selectItem itemValue="" itemLabel="Todos" escapeItem="&nbsp;" />
+							   <f:selectItem itemValue="P" itemLabel="Pendente" escapeItem="&nbsp;" />
+							   <f:selectItem itemValue="C" itemLabel="Concluída" escapeItem="&nbsp;" />	   			
+							</h:selectOneRadio>	
+		                 </div>
+	                </h:panelGroup>
+	             </h:panelGroup>
+				
 	
 	             <h:panelGroup layout="block" styleClass="box-footer">
-	                <h:commandButton id="filtrar" action="#{historicoCompraClienteController.filtrar}" value="Filtar" styleClass="btn btn-primary"/>
+	                <h:commandButton id="filtrar" action="#{historicoCompraClienteController.filtrar}" value="Filtrar" styleClass="btn btn-primary pull-right"/>
 	             </h:panelGroup>
             </h:form>
         </section>
@@ -62,7 +68,7 @@
 	                    </tr>
                     </thead>
                     <tbody>
-                    <ui:repeat var="_compra" value="#{comprasPendentes}">
+                    <ui:repeat var="_compra" value="#{historicoCompraClienteController.compras}">
                         <tr>
                             <td>
                                 <h:outputText value="#{_compra.id}">
@@ -98,6 +104,11 @@
          <script type="text/javascript">
                $(document).ready(function() {
 
+            	   $('input[type="radio"]').iCheck({
+            	          checkboxClass: 'icheckbox_minimal-red',
+            	          radioClass: 'iradio_minimal-red'
+            	   });
+            	   
                    $('.table-striped').dataTable( {
                        "language": {
                            url: "#{resource['plugins/datatables/extensions/lang/Portuguese-Brasil.json']}"
