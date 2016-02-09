@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/client/client.xhtml">
+
+    <ui:define name="main">
+
+        <section class="invoice">
+
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="glyphicon glyphicon-search"></i> Consultar Compras
+                    </h2>
+                </div>
+            </div>
+
+            <h:form prependId="false">
+
+				  <h:panelGroup layout="block" styleClass="box-body">
+	                <h:panelGroup layout="block" styleClass="form-group">
+	                    <label for="situacao">Período:</label>
+	                    <div class="input-group">
+	                      <div class="input-group-addon">
+	                        <i class="fa fa-calendar"></i>
+	                      </div>
+	                      <input type="text" id="periodo" class="form-control" jsfc="h:inputText" maxlength="24" size="24"
+	                      	value="#{historicoVendaController.periodo}"/>
+	                    </div>
+	                </h:panelGroup>
+	              </h:panelGroup>
+
+	             <h:panelGroup layout="block" styleClass="box-body">
+	                <h:panelGroup layout="block" styleClass="form-group">
+	                    <label for="situacao">Situação:</label>
+		                <div class="input-group">  
+		                    <h:selectOneRadio value="#{historicoVendaController.situacao}">
+							   <f:selectItem itemValue="" itemLabel="Todos" escapeItem="&nbsp;" />
+							   <f:selectItem itemValue="P" itemLabel="Pendente" escapeItem="&nbsp;" />
+							   <f:selectItem itemValue="C" itemLabel="Concluída" escapeItem="&nbsp;" />	   			
+							</h:selectOneRadio>	
+		                 </div>
+	                </h:panelGroup>
+	             </h:panelGroup>
+				
+	
+	             <h:panelGroup layout="block" styleClass="box-footer">
+	                <h:commandButton id="filtrar" action="#{historicoVendaController.filtrar}" value="Filtrar" styleClass="btn btn-primary pull-right"/>
+	             </h:panelGroup>
+            </h:form>
+        </section>
+        <h:panelGroup layout="block" styleClass="box" style="margin: 10px 25px; width: auto;">
+
+            <h:panelGroup layout="block" styleClass="box-body">
+                <table id="historico" class="table table-bordered table-striped">
+                   	<thead>
+	                    <tr>
+	                        <th>Código</th>
+	                        <th>Data/Hora</th>
+	                        <th>Qtd. Itens</th>
+	                        <th>Valor</th>
+	                        <td></td>
+	                    </tr>
+                    </thead>
+                    <tbody>
+                    <ui:repeat var="_compra" value="#{historicoVendaController.compras}">
+                        <tr>
+                            <td>
+                                <h:outputText value="#{_compra.id}">
+                                    <f:convertNumber groupingUsed="true" pattern="#000000"/>
+                                </h:outputText>
+                            </td>
+                            <td>
+                                <h:outputText value="#{_compra.dataHora}">
+                                    <f:convertDateTime locale="pt_br" pattern="dd/MM/yyyy hh:mm:ss " />
+                                </h:outputText>
+                            </td>
+                            <td>
+                                <h:outputText value="#{fn:length(_compra.itemCompras)}"/>
+                            </td>
+                            <td>
+                                <h:outputText value="#{_compra.valorTotalCompra}">
+                                    <f:converter converterId="ConverterBigDecimalBrasileiroSimples" />
+                                </h:outputText>
+                            </td>
+                            <td>
+                                <h:link outcome="/public/empresa/visualiza">
+                                    <f:param name="id" value="#{_compra.id}"/>
+                                    <i class="glyphicon glyphicon-open-file"/>
+                                </h:link>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </h:panelGroup>
+        
+         <script type="text/javascript">
+               $(document).ready(function() {
+
+            	   $('input[type="radio"]').iCheck({
+            	          checkboxClass: 'icheckbox_minimal-red',
+            	          radioClass: 'iradio_minimal-red'
+            	   });
+            	   
+                   $('.table-striped').dataTable( {
+                       "language": {
+                           url: "#{resource['plugins/datatables/extensions/lang/Portuguese-Brasil.json']}"
+                       }
+
+                   } );
+
+                   $('#periodo').daterangepicker({
+                	    "dateLimit": {
+                	        "days": 365
+                	    },
+                	    "locale": {
+                	        "format": "DD/MM/YYYY",
+                	        "separator": " - ",
+                	        "applyLabel": "Aplicar",
+                	        "cancelLabel": "Cancelar",
+                	        "fromLabel": "De",
+                	        "toLabel": "Até",
+                	        "customRangeLabel": "Custom",
+                	        "daysOfWeek": [
+                	            "Dom",
+                	            "Seg",
+                	            "Ter",
+                	            "Qua",
+                	            "Qui",
+                	            "Sex",
+                	            "Sab"
+                	        ],
+                	        "monthNames": [
+                	            "Janeiro",
+                	            "Fevereiro",
+                	            "Maço",
+                	            "Abril",
+                	            "Maio",
+                	            "Junho",
+                	            "Julho",
+                	            "Agosto",
+                	            "Setembro",
+                	            "Outubro",
+                	            "Novembro",
+                	            "Dezembro"
+                	        ],
+                	        "firstDay": 1
+                	    }
+                	}, function(start, end, label) {
+                	  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+                	});
+
+                   $('#periodo').on('apply.daterangepicker', function(ev, picker) {
+                	      $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                	});
+
+                   $('#periodo').on('cancel.daterangepicker', function(ev, picker) {
+                	      $(this).val('');
+                	});
+               });
+        </script>
+    </ui:define>
+</ui:composition>

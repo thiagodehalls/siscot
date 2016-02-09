@@ -7,8 +7,8 @@
                 template="/WEB-INF/templates/client/client.xhtml">
 
     <f:metadata>
-        <f:viewParam name="id" value='#{historicoVendaController.id}'/>
-        <f:event type="preRenderView" listener='#{historicoVendaController.retrieve}'/>
+        <f:viewParam name="id" value='#{trataPendenciaController.id}'/>
+        <f:event type="preRenderView" listener='#{trataPendenciaController.retrieve}'/>
     </f:metadata>
 
     <ui:define name="main">
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-header">
-                        <i class="glyphicon glyphicon-barcode"></i> Itens Compra
+                        <i class="glyphicon glyphicon-barcode"></i> Tratar Itens Pendentes
                     </h2>
                 </div>
             </div>
@@ -28,12 +28,12 @@
                 
                  <div class="row invoice-info">
                      <div class="col-sm-12 invoice-col">
-                         <strong>#{historicoVendaController.subCompra.cliente.nome}</strong>
+                         <strong>#{trataPendenciaController.subCompra.cliente.nome}</strong>
                          <address>
-                             #{historicoVendaController.subCompra.cliente.endereco} - Formosa, GO<br/>
-                             <strong>Cep:</strong> #{historicoVendaController.subCompra.cliente.cep}<br/>
-                             <strong>Fone:</strong> #{historicoVendaController.subCompra.cliente.telefoneResidencial}<br/>
-                             <strong>Email:</strong> #{historicoVendaController.subCompra.cliente.email}
+                             #{trataPendenciaController.subCompra.cliente.endereco} - Formosa, GO<br/>
+                             <strong>Cep:</strong> #{trataPendenciaController.subCompra.cliente.cep}<br/>
+                             <strong>Fone:</strong> #{trataPendenciaController.subCompra.cliente.telefoneResidencial}<br/>
+                             <strong>Email:</strong> #{trataPendenciaController.subCompra.cliente.email}
                          </address>
                      </div>
                  </div>
@@ -50,7 +50,7 @@
                                  <th>Subtotal</th>
                                  <th></th>
                              </tr>
-                             <ui:repeat var="_item" value="#{historicoVendaController.subCompra.itens}">
+                             <ui:repeat var="_item" value="#{trataPendenciaController.subCompra.itens}">
                                  <tr>
                                      <td>
                                          #{_item.produto.nome}
@@ -78,6 +78,15 @@
                                          <h:outputText value="#{_item.valor}">
                                              <f:converter converterId="ConverterBigDecimalBrasileiroSimples" />
                                          </h:outputText>
+                                     </td>
+                                     <td>
+                                     	<h:commandLink action="#{trataPendenciaController.aprovada(_item)}" title="Aprovar">
+                                     		<i class="glyphicon glyphicon-ok" style="font-size: 14pt;"/>
+                                     	</h:commandLink>
+                                     	
+                                     	<h:commandLink action="#{trataPendenciaController.recusar(_item)}" title="Recusar">
+                                     		<i class="glyphicon glyphicon-remove" style="font-size: 14pt;"/>
+                                     	</h:commandLink>
                                      </td>
                                  </tr>
                              </ui:repeat>
